@@ -1,0 +1,36 @@
+.nv{
+    background-color: rgb(16, 20, 71);
+}
+
+.wd{
+    list-style: none! important;
+}
+
+.letterc{
+    color: white! important;
+}
+
+.lyrlo{
+    color: white! important;
+}
+
+ul li .letterc:hover{
+    background-color: rgb(19, 24, 110);
+    border-radius: 10px;
+}
+
+.main div img{
+    width: 80%! important;
+}
+
+footer{
+    background-color:rgb(16, 20, 71) ;
+}
+
+.dnone{
+    display: none;
+}
+
+.textz{
+    font-size: 30px! important;
+}
