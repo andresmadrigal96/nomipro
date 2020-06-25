@@ -2,17 +2,17 @@
 
 require '../controller/conexion.php';
 
-$id = $_GET['idCargo'];
+$id = $_GET['idHExtra'];
 
-$consulta = "SELECT * FROM cargos WHERE idCargo = $id";
+$consulta = "SELECT * FROM horasextra WHERE idHExtra = $id";
 
 if($resultado = $mysqli->query($consulta)){
 
   while($fila = $resultado->fetch_assoc()){
-    $id = $fila['idCargo'];
+    $id = $fila['idHExtra'];
     $nombre = $fila['nombre'];
+    $valor = $fila['valor'];
     $estado = $fila['estado'];
-    $valorCargo = $fila['valorCargo'];
   }
 
   $resultado -> free();
@@ -86,10 +86,14 @@ if($resultado = $mysqli->query($consulta)){
 
     <h1 class="text-center mt-3">Editar cargo</h1>
 
-    <form class="col-7 center p-3 container" action="../controller/updateCargo.php" method="post">
+    <form class="col-7 center p-3 container" action="../controller/updateHoraExtra.php" method="post">
         <div class="form-group">
             <label for="nombre">Nombre*</label>
             <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del cargo" value="<?php echo $nombre ?>">
+        </div>
+        <div class="form-group">
+            <label for="valor">Valor*</label>
+            <input type="text" class="form-control" id="valor" name="valor" placeholder="10000" value="<?php echo $valor ?>">
         </div>
         <div class="form-group">
             <label for="estado">Estado*</label>
@@ -99,13 +103,9 @@ if($resultado = $mysqli->query($consulta)){
                 <option value="Inactivo">Inactivo</option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="valorCargo">Valor cargo</label>
-            <input type="text" class="form-control" id="valorCargo" name="valorCargo" placeholder="500000" value="<?php echo $valorCargo ?>">
-        </div>
 
         <div class="d-flex justify-content-center">
-        <input type="text" class="dnone" name="idCargo" value="<?php echo $id ?>">
+        <input type="text" class="dnone" name="idHExtra" value="<?php echo $id ?>">
             <input type="submit" value="Actualizar" class="btn btn-primary">
         </div>
         

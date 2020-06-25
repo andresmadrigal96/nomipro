@@ -3,8 +3,16 @@
 require '../controller/conexion.php';
 
 $id = $_GET['idEmpleado'];
+$idC = $_GET['idCargo'];
+$idV = $_GET['idVinculacion'];
+$idH = $_GET['idHorario'];
 
-$consulta = "SELECT * FROM empleados WHERE idEmpleado = $id";
+
+$consulta = "SELECT * FROM empleados 
+left join cargos on empleados.idCargo_fk=cargos.idCargo 
+left join vinculaciones on empleados.idVinculacion_fk=vinculaciones.idVinculacion
+left join horarios on empleados.idHorario_fk=horarios.idHorario 
+WHERE idEmpleado = $id";
 
 if($resultado = $mysqli->query($consulta)){
 
@@ -16,10 +24,10 @@ if($resultado = $mysqli->query($consulta)){
     $telefono = $fila['telefono'];
     $tipoDoc = $fila['tipoDoc'];
     $numDoc = $fila['numDoc'];
-    $cargo = $fila['idCargo_fk'];
-    $vinculacion = $fila['idVinculacion_fk'];
-    $horario = $fila['idHorario_fk'];
-    $estado = $fila['estado'];
+    $cargo = $fila['nombre'];
+    $vinculacion = $fila['descripcion'];
+    $horario = $fila['tipoHorario'];
+    $estado = $fila['estadoE'];
   }
 
   $resultado -> free();
@@ -36,7 +44,7 @@ if($resultado = $mysqli->query($consulta)){
     <meta name="viewport" content="with=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css/all.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-	<title>CRUD</title>
+	<title>Nomipro</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light nv">
@@ -71,7 +79,7 @@ if($resultado = $mysqli->query($consulta)){
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="parafiscales.php">Parafiscales</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Horas extra</a>
+            <a class="dropdown-item" href="horasExtra.php">Horas extra</a>
           </div>
         </li>
         <li class="nav-item dropdown">
@@ -79,14 +87,14 @@ if($resultado = $mysqli->query($consulta)){
             Gestión de nómina
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Control de pagos</a>
+            <a class="dropdown-item" href="controlPagos.php">Control de pagos</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Nómina</a>
+            <a class="dropdown-item" href="nominas.php">Nómina</a>
           </div>
         </li>
       </ul>
       <ul class="form-inline my-2 my-lg-0">
-        <li class="nav-item active wd bg-dark"><a class="btn btn-outline-secondary my-2 my-sm-0 lyrlo" href="../index.html">Cerrar sesión</a></li>
+        <li class="nav-item active wd bg-dark"><a class="btn btn-outline-secondary my-2 my-sm-0 lyrlo" href="../index.php">Cerrar sesión</a></li>
       </ul>
     </div>
   </nav>
@@ -120,12 +128,12 @@ if($resultado = $mysqli->query($consulta)){
         </div>
         <div class="form-group">
             <label for="numDoc">Documento*</label>
-            <input type="text" class="form-control" id="numDoc" name="numDoc" placeholder="documento de identidad" required value="<?php echo $numDoc ?>" >
+            <input type="text" class="form-control" id="numDoc" name="numDoc" placeholder="documento de identidad" required value="<?php echo $numDoc ?>">
         </div>
         <div class="form-group">
             <label for="idCargo_fk">Cargo*</label>
-            <select class="form-control" id="idCargo_fk" name="idCargo_fk" required value="<?php echo $cargo ?>">
-                <option value="<?php echo $cargo?>">Seleccione el cargo</option>
+            <select class="form-control" id="idCargo_fk" name="idCargo_fk" required>
+                <option value="<?php echo $idC?>"><?php echo $cargo?></option>
                 <?php
                   $consulta = "SELECT * FROM cargos";
                   $resultado = $mysqli -> query($consulta);
@@ -137,8 +145,8 @@ if($resultado = $mysqli->query($consulta)){
         </div>
         <div class="form-group">
             <label for="idVinculacion_fk">Vinculación*</label>
-            <select class="form-control" id="idVinculacion_fk" name="idVinculacion_fk" required value="<?php echo $vinculacion ?>">
-                <option value="1">Seleccione la vinculación</option>
+            <select class="form-control" id="idVinculacion_fk" name="idVinculacion_fk" required>
+                <option value="<?php echo $idV?>"><?php echo $vinculacion?></option>
                 <?php
                   $consulta = "SELECT * FROM vinculaciones";
                   $resultado = $mysqli -> query($consulta);
@@ -151,7 +159,7 @@ if($resultado = $mysqli->query($consulta)){
         <div class="form-group">
             <label for="idHorario_fk">Horario*</label>
             <select class="form-control" id="idHorario_fk" name="idHorario_fk" required value="<?php echo $horario ?>">
-                <option value="1">Seleccione el horario</option>
+                <option value="<?php echo $idH?>"><?php echo $horario?></option>
                 <?php
                   $consulta = "SELECT * FROM horarios";
                   $resultado = $mysqli -> query($consulta);
@@ -162,11 +170,18 @@ if($resultado = $mysqli->query($consulta)){
             </select>
         </div>
         <div class="form-group">
-            <label for="estado">Estado</label>
-            <input type="text" class="form-control" id="estado" name="estado" placeholder="vacacines" value="<?php echo $estado ?>">
+            <label for="estadoE">Estado*</label>
+            <select class="form-control" id="estadoE" name="estadoE">
+                <option value="<?php echo $estado ?>"><?php echo $estado ?></option>
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+            </select>
         </div>
         <div class="d-flex justify-content-center">
         <input type="text" class="dnone" name="idEmpleado" value="<?php echo $id ?>">
+        <input type="text" class="dnone" name="idCargo" value="<?php echo $idC ?>">
+        <input type="text" class="dnone" name="idVinculacion" value="<?php echo $idV ?>">
+        <input type="text" class="dnone" name="idHorario" value="<?php echo $idH ?>">
             <input type="submit" value="Actualizar" class="btn btn-primary">
         </div>
         

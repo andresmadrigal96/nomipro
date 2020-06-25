@@ -1,27 +1,6 @@
 <?php
-
-require '../controller/conexion.php';
-
-$id = $_GET['idCargo'];
-
-$consulta = "SELECT * FROM cargos WHERE idCargo = $id";
-
-if($resultado = $mysqli->query($consulta)){
-
-  while($fila = $resultado->fetch_assoc()){
-    $id = $fila['idCargo'];
-    $nombre = $fila['nombre'];
-    $estado = $fila['estado'];
-    $valorCargo = $fila['valorCargo'];
-  }
-
-  $resultado -> free();
-
-
-}
-
+  require '../controller/conexion.php'
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -84,29 +63,45 @@ if($resultado = $mysqli->query($consulta)){
     </div>
   </nav>
 
-    <h1 class="text-center mt-3">Editar cargo</h1>
+    <h1 class="text-center mt-3">Registrar hora extra</h1>
 
-    <form class="col-7 center p-3 container" action="../controller/updateCargo.php" method="post">
+    <form class="col-7 center p-3 container" action="../controller/insertHoraExtraxEmp.php" method="post">
         <div class="form-group">
-            <label for="nombre">Nombre*</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del cargo" value="<?php echo $nombre ?>">
+                <label for="idEmpleado_fk">Empleado*</label>
+                <select class="form-control" id="idEmpleado_fk" name="idEmpleado_fk" required>
+                    <option value="1">Seleccione el empleado</option>
+                    <?php
+                    $consulta = "SELECT * FROM empleados";
+                    $resultado = $mysqli -> query($consulta);
+                    while($fila=$resultado->fetch_array()){
+                        echo "<option value='".$fila["idEmpleado"]."'>".$fila['nombreE']."</option>";
+                    }
+                    ?>
+                </select>
         </div>
         <div class="form-group">
-            <label for="estado">Estado*</label>
-            <select class="form-control" id="estado" name="estado">
-                <option value="<?php echo $estado ?>"><?php echo $estado ?></option>
-                <option value="Activo">Activo</option>
-                <option value="Inactivo">Inactivo</option>
-            </select>
+                <label for="idHExtra_fk">Hora extra*</label>
+                <select class="form-control" id="idHExtra_fk" name="idHExtra_fk" required>
+                    <option value="1">Seleccione la hora extra</option>
+                    <?php
+                    $consulta = "SELECT * FROM horasextra";
+                    $resultado = $mysqli -> query($consulta);
+                    while($fila=$resultado->fetch_array()){
+                        echo "<option value='".$fila["idHExtra"]."'>".$fila['nombre']."</option>";
+                    }
+                    ?>
+                </select>
         </div>
         <div class="form-group">
-            <label for="valorCargo">Valor cargo</label>
-            <input type="text" class="form-control" id="valorCargo" name="valorCargo" placeholder="500000" value="<?php echo $valorCargo ?>">
+            <label for="numeroHoras">Cantirad*</label>
+            <input type="text" class="form-control" id="numeroHoras" name="numeroHoras" placeholder="0">
         </div>
-
+        <div class="form-group">
+            <label for="mes">Mes*</label>
+            <input type="text" class="form-control" id="mes" name="mes" placeholder="Enero">
+        </div>
         <div class="d-flex justify-content-center">
-        <input type="text" class="dnone" name="idCargo" value="<?php echo $id ?>">
-            <input type="submit" value="Actualizar" class="btn btn-primary">
+            <input type="submit" value="REGISTRAR" class="btn btn-primary">
         </div>
         
     </form>
@@ -117,6 +112,7 @@ if($resultado = $mysqli->query($consulta)){
 			Andrés
 		</p>
 	</footer>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

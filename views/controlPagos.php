@@ -1,24 +1,9 @@
 <?php
-
 require '../controller/conexion.php';
 
-$id = $_GET['idCargo'];
-
-$consulta = "SELECT * FROM cargos WHERE idCargo = $id";
-
-if($resultado = $mysqli->query($consulta)){
-
-  while($fila = $resultado->fetch_assoc()){
-    $id = $fila['idCargo'];
-    $nombre = $fila['nombre'];
-    $estado = $fila['estado'];
-    $valorCargo = $fila['valorCargo'];
-  }
-
-  $resultado -> free();
-
-
-}
+$consulta = "SELECT * FROM controlpagos
+inner join empleados on controlpagos.idEmpleado_fk=empleados.idEmpleado";
+$resultado = $mysqli ->query($consulta);
 
 ?>
 
@@ -84,32 +69,33 @@ if($resultado = $mysqli->query($consulta)){
     </div>
   </nav>
 
-    <h1 class="text-center mt-3">Editar cargo</h1>
+  <h1 class="text-center mt-3">Gestion de pago</h1>
 
-    <form class="col-7 center p-3 container" action="../controller/updateCargo.php" method="post">
-        <div class="form-group">
-            <label for="nombre">Nombre*</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del cargo" value="<?php echo $nombre ?>">
-        </div>
-        <div class="form-group">
-            <label for="estado">Estado*</label>
-            <select class="form-control" id="estado" name="estado">
-                <option value="<?php echo $estado ?>"><?php echo $estado ?></option>
-                <option value="Activo">Activo</option>
-                <option value="Inactivo">Inactivo</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="valorCargo">Valor cargo</label>
-            <input type="text" class="form-control" id="valorCargo" name="valorCargo" placeholder="500000" value="<?php echo $valorCargo ?>">
-        </div>
-
-        <div class="d-flex justify-content-center">
-        <input type="text" class="dnone" name="idCargo" value="<?php echo $id ?>">
-            <input type="submit" value="Actualizar" class="btn btn-primary">
-        </div>
-        
-    </form>
+  <a class="btn btn-primary ml-5 mb-3" href="registrarControlPago.php">Registrar control pago</a>
+  <table class="table container border">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Empleado</th>
+        <th scope="col">valor de horas extra</th>
+        <th scope="col">valor parafiscales</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Editar</th>
+        <th scope="col">Eliminar</th>
+      </tr>
+    </thead>
+    <tbody>
+        <?php while($fila = $resultado ->fetch_assoc()){?>
+              <tr>
+                <td><?php echo $fila['nombreE'];?></td>
+                <td><?php echo $fila['valorHorasExtras'];?></td>
+                <td><?php echo $fila['valorParafiscales'];?></td>
+                <td><?php echo $fila['estado'];?></td>
+                <td><a href="editarCargo.php?idControlPago=<?php echo $fila['idControlPago']?>"><img src="https://img.icons8.com/bubbles/50/000000/edit.png"/></a></td>
+                <td><a href="../controller/deleteControlPago.php?idControlPago=<?php echo $fila['idControlPago']?>"><img src="https://img.icons8.com/office/30/000000/delete-folder.png"/></a></td>
+              </tr>
+         <?php }?>
+        </tbody>
+  </table>
 
   <footer>
 		<p class="footer lyrlo text-center mt-5 p-2">
@@ -117,6 +103,7 @@ if($resultado = $mysqli->query($consulta)){
 			Andrés
 		</p>
 	</footer>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

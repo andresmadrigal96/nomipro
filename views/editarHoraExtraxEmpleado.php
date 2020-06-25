@@ -2,17 +2,23 @@
 
 require '../controller/conexion.php';
 
-$id = $_GET['idCargo'];
+$id = $_GET['idHExtraEmp'];
+$idE = $_GET['idEmpleado'];
+$idH = $_GET['idHExtra'];
 
-$consulta = "SELECT * FROM cargos WHERE idCargo = $id";
+$consulta = "SELECT * FROM hextraxempleado 
+left join empleados on hextraxempleado.idEmpleado_fk=empleados.idEmpleado 
+left join horasextra on hextraxempleado.idHExtra_fk=horasextra.idHExtra
+WHERE idHExtraEmp = $id";
 
 if($resultado = $mysqli->query($consulta)){
 
   while($fila = $resultado->fetch_assoc()){
-    $id = $fila['idCargo'];
-    $nombre = $fila['nombre'];
-    $estado = $fila['estado'];
-    $valorCargo = $fila['valorCargo'];
+    $id = $fila['idHExtraEmp'];
+    $empleado = $fila['nombreE'];
+    $horaExtra = $fila['nombre'];
+    $numeroHoras = $fila['numeroHoras'];
+    $mes = $fila['mes'];
   }
 
   $resultado -> free();
@@ -84,28 +90,50 @@ if($resultado = $mysqli->query($consulta)){
     </div>
   </nav>
 
-    <h1 class="text-center mt-3">Editar cargo</h1>
+    <h1 class="text-center mt-3">Editar hora extra de empleado</h1>
 
-    <form class="col-7 center p-3 container" action="../controller/updateCargo.php" method="post">
+    <form class="col-7 center p-3 container" action="../controller/updateHoraExtraxEmp.php" method="post">
         <div class="form-group">
-            <label for="nombre">Nombre*</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del cargo" value="<?php echo $nombre ?>">
-        </div>
-        <div class="form-group">
-            <label for="estado">Estado*</label>
-            <select class="form-control" id="estado" name="estado">
-                <option value="<?php echo $estado ?>"><?php echo $estado ?></option>
-                <option value="Activo">Activo</option>
-                <option value="Inactivo">Inactivo</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="valorCargo">Valor cargo</label>
-            <input type="text" class="form-control" id="valorCargo" name="valorCargo" placeholder="500000" value="<?php echo $valorCargo ?>">
-        </div>
+                <label for="idEmpleado_fk">Empleado*</label>
+                <select class="form-control" id="idEmpleado_fk" name="idEmpleado_fk" required>
+                    <option value="<?php echo $idE?>"><?php echo $empleado?></option>
+                    <?php
+                      $consulta = "SELECT * FROM empleados";
+                      $resultado = $mysqli -> query($consulta);
+                      while($fila=$resultado->fetch_array()){
+                        echo "<option value='".$fila["idEmpleado"]."'>".$fila['nombreE']."</option>";
+                      }
+                    ?>
+                </select>
+          </div>
+          <div class="form-group">
+                <label for="idHExtra_fk">Hora extra*</label>
+                <select class="form-control" id="idHExtra_fk" name="idHExtra_fk" required>
+                    <option value="<?php echo $idH?>"><?php echo $horaExtra?></option>
+                    <?php
+                      $consulta = "SELECT * FROM horasextra";
+                      $resultado = $mysqli -> query($consulta);
+                      while($fila=$resultado->fetch_array()){
+                        echo "<option value='".$fila["idHExtra"]."'>".$fila['nombre']."</option>";
+                      }
+                    ?>
+                </select>
+          </div>
+
+          <div class="form-group">
+              <label for="numeroHoras">Cantidad*</label>
+              <input type="text" class="form-control" id="numeroHoras" name="numeroHoras" placeholder="Cantidad" value="<?php echo $numeroHoras ?>">
+          </div>
+
+          <div class="form-group">
+              <label for="mes">mes*</label>
+              <input type="text" class="form-control" id="mes" name="mes" placeholder="10000" value="<?php echo $mes ?>">
+          </div>
 
         <div class="d-flex justify-content-center">
-        <input type="text" class="dnone" name="idCargo" value="<?php echo $id ?>">
+        <input type="text" class="dnone" name="idHExtraEmp" value="<?php echo $id ?>">
+        <input type="text" class="dnone" name="idEmpleado" value="<?php echo $idE ?>">
+        <input type="text" class="dnone" name="idHExtra" value="<?php echo $idH ?>">
             <input type="submit" value="Actualizar" class="btn btn-primary">
         </div>
         

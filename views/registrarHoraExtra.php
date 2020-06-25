@@ -1,27 +1,3 @@
-<?php
-
-require '../controller/conexion.php';
-
-$id = $_GET['idCargo'];
-
-$consulta = "SELECT * FROM cargos WHERE idCargo = $id";
-
-if($resultado = $mysqli->query($consulta)){
-
-  while($fila = $resultado->fetch_assoc()){
-    $id = $fila['idCargo'];
-    $nombre = $fila['nombre'];
-    $estado = $fila['estado'];
-    $valorCargo = $fila['valorCargo'];
-  }
-
-  $resultado -> free();
-
-
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -84,29 +60,26 @@ if($resultado = $mysqli->query($consulta)){
     </div>
   </nav>
 
-    <h1 class="text-center mt-3">Editar cargo</h1>
+    <h1 class="text-center mt-3">Registrar hora extra</h1>
 
-    <form class="col-7 center p-3 container" action="../controller/updateCargo.php" method="post">
+    <form class="col-7 center p-3 container" action="../controller/insertHoraExtra.php" method="post">
         <div class="form-group">
             <label for="nombre">Nombre*</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del cargo" value="<?php echo $nombre ?>">
+            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="valor">Valor</label>
+            <input type="text" class="form-control" id="valor" name="valor" placeholder="25000">
         </div>
         <div class="form-group">
             <label for="estado">Estado*</label>
-            <select class="form-control" id="estado" name="estado">
-                <option value="<?php echo $estado ?>"><?php echo $estado ?></option>
+            <select class="form-control" id="estado" name="estado" required>
                 <option value="Activo">Activo</option>
                 <option value="Inactivo">Inactivo</option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="valorCargo">Valor cargo</label>
-            <input type="text" class="form-control" id="valorCargo" name="valorCargo" placeholder="500000" value="<?php echo $valorCargo ?>">
-        </div>
-
         <div class="d-flex justify-content-center">
-        <input type="text" class="dnone" name="idCargo" value="<?php echo $id ?>">
-            <input type="submit" value="Actualizar" class="btn btn-primary">
+            <input type="submit" value="REGISTRAR" class="btn btn-primary">
         </div>
         
     </form>
@@ -117,6 +90,7 @@ if($resultado = $mysqli->query($consulta)){
 			Andrés
 		</p>
 	</footer>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

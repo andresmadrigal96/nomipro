@@ -2,17 +2,16 @@
 
 require '../controller/conexion.php';
 
-$id = $_GET['idCargo'];
+$id = $_GET['idHorario'];
 
-$consulta = "SELECT * FROM cargos WHERE idCargo = $id";
+$consulta = "SELECT * FROM horarios WHERE idHorario = $id";
 
 if($resultado = $mysqli->query($consulta)){
 
   while($fila = $resultado->fetch_assoc()){
-    $id = $fila['idCargo'];
-    $nombre = $fila['nombre'];
-    $estado = $fila['estado'];
-    $valorCargo = $fila['valorCargo'];
+    $id = $fila['idHorario'];
+    $tipoHorario = $fila['tipoHorario'];
+    $hora = $fila['hora'];
   }
 
   $resultado -> free();
@@ -84,28 +83,29 @@ if($resultado = $mysqli->query($consulta)){
     </div>
   </nav>
 
-    <h1 class="text-center mt-3">Editar cargo</h1>
+    <h1 class="text-center mt-3">Editar horario</h1>
 
-    <form class="col-7 center p-3 container" action="../controller/updateCargo.php" method="post">
+    <form class="col-7 center p-3 container" action="../controller/updateHorario.php" method="post">
         <div class="form-group">
-            <label for="nombre">Nombre*</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del cargo" value="<?php echo $nombre ?>">
-        </div>
-        <div class="form-group">
-            <label for="estado">Estado*</label>
-            <select class="form-control" id="estado" name="estado">
-                <option value="<?php echo $estado ?>"><?php echo $estado ?></option>
-                <option value="Activo">Activo</option>
-                <option value="Inactivo">Inactivo</option>
+            <label for="tipoHorario">Tipo horario*</label>
+            <select class="form-control" id="tipoHorario" name="tipoHorario">
+                <option value="<?php echo $tipoHorario ?>"><?php echo $tipoHorario ?></option>
+                <option value="mañana">Mañana</option>
+                <option value="tarde">Tarde</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="valorCargo">Valor cargo</label>
-            <input type="text" class="form-control" id="valorCargo" name="valorCargo" placeholder="500000" value="<?php echo $valorCargo ?>">
+            <label for="hora">Hora*</label>
+            <select class="form-control" id="hora" name="hora">
+                <option value="<?php echo $hora ?>"><?php echo $hora ?></option>
+                <option value="6-2">6:00 am / 2:00 pm</option>
+                <option value="2-10">2:00 pm / 10:00 pm</option>
+                <option value="3-8">3:00 pm / 8:00 pm</option>
+            </select>
         </div>
 
         <div class="d-flex justify-content-center">
-        <input type="text" class="dnone" name="idCargo" value="<?php echo $id ?>">
+        <input type="text" class="dno" name="idHorario" value="<?php echo $id ?>">
             <input type="submit" value="Actualizar" class="btn btn-primary">
         </div>
         

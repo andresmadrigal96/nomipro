@@ -13,7 +13,7 @@ $resultado = $mysqli ->query($consulta);
     <meta name="viewport" content="with=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css/all.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-	<title>CRUD</title>
+	<title>Nomipro</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light nv">
@@ -48,7 +48,7 @@ $resultado = $mysqli ->query($consulta);
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="parafiscales.php">Parafiscales</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Horas extra</a>
+            <a class="dropdown-item" href="horasExtra.php">Horas extra</a>
           </div>
         </li>
         <li class="nav-item dropdown">
@@ -56,14 +56,14 @@ $resultado = $mysqli ->query($consulta);
             Gestión de nómina
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Control de pagos</a>
+            <a class="dropdown-item" href="controlPagos.php">Control de pagos</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Nómina</a>
+            <a class="dropdown-item" href="nominas.php">Nómina</a>
           </div>
         </li>
       </ul>
       <ul class="form-inline my-2 my-lg-0">
-        <li class="nav-item active wd bg-dark"><a class="btn btn-outline-secondary my-2 my-sm-0 lyrlo" href="../index.html">Cerrar sesión</a></li>
+        <li class="nav-item active wd bg-dark"><a class="btn btn-outline-secondary my-2 my-sm-0 lyrlo" href="../index.php">Cerrar sesión</a></li>
       </ul>
     </div>
   </nav>
@@ -92,11 +92,6 @@ $resultado = $mysqli ->query($consulta);
               </tr>
          <?php }?>
         </tbody>
-    <tbody>
-      <tr>
-        
-      </tr>
-    </tbody>
   </table>
 
   <footer>
