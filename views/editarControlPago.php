@@ -1,7 +1,28 @@
 <?php
 require '../utils/seguridad.php';
+require '../controller/conexion.php';
+
+$id = $_GET['idControlPago'];
+
+$consulta = "SELECT * FROM controlpagos 
+inner join empleados on controlpagos.idEmpleado_fk=empleados.idEmpleado 
+WHERE idControlPago = $id";
+
+if($resultado = $mysqli->query($consulta)){
+
+  while($fila = $resultado->fetch_assoc()){
+    $id = $fila['idControlPago'];
+    $nombre = $fila['nombreE'];
+    $estado = $fila['estado'];
+  }
+
+  $resultado -> free();
+
+
+}
 
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,28 +33,28 @@ require '../utils/seguridad.php';
 	<title>Nomipro</title>
 </head>
 <body>
-    <?php require 'shared/menu.php'?>
+    <?php include "shared/menu.php" ?>
 
-    <h1 class="text-center mt-3">Registrar cargo</h1>
+    <h1 class="text-center mt-3">Editar control pago</h1>
 
-    <form class="col-7 center p-3 container" action="../controller/insertCargo.php" method="post">
+    <form class="col-7 center p-3 container" action="../controller/updateControlPago.php" method="post">
         <div class="form-group">
-            <label for="nombre">Nombre*</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del cargo" required>
+            <label for="idEmpleado_fk">Nombre*</label>
+            <input type="text" class="form-control" id="nombreE" name="idEmpleado_fk" placeholder="Nombre del cargo" value="<?php echo $nombre ?>">
         </div>
         <div class="form-group">
             <label for="estado">Estado*</label>
-            <select class="form-control" id="estado" name="estado" required>
+            <select class="form-control" id="estado" name="estado">
+                <option value="<?php echo $estado ?>"><?php echo $estado ?></option>
                 <option value="Activo">Activo</option>
                 <option value="Inactivo">Inactivo</option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="valorCargo">Valor de cargo</label>
-            <input type="text" class="form-control" id="valorCargo" name="valorCargo" placeholder="500.000">
-        </div>
+
         <div class="d-flex justify-content-center">
-            <input type="submit" value="REGISTRAR" class="btn btn-primary">
+        <input type="text" class="dnone" name="idControlPago" value="<?php echo $id ?>">
+        <input type="text" class="dnone" name="idEmpleado" value="<?php echo $idEmpleado ?>">
+            <input type="submit" value="Actualizar" class="btn btn-primary">
         </div>
         
     </form>
@@ -44,7 +65,6 @@ require '../utils/seguridad.php';
 			Andrés
 		</p>
 	</footer>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

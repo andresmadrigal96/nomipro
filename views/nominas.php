@@ -2,10 +2,11 @@
 require '../utils/seguridad.php';
 require '../controller/conexion.php';
 
-$consulta = "SELECT * FROM controlpagos
-inner join empleados on controlpagos.idEmpleado_fk=empleados.idEmpleado";
+$consulta = "SELECT * FROM nominas
+inner join empleados on nominas.idEmpleado_fk=empleados.idEmpleado
+inner join cargos on nominas.idCargo_fk=cargos.idCargo
+inner join controlpagos on nominas.idControlPago_fk=controlpagos.idControlPago";
 $resultado = $mysqli ->query($consulta);
-
 ?>
 
 <!DOCTYPE html>
@@ -20,31 +21,37 @@ $resultado = $mysqli ->query($consulta);
 <body>
   <?php include "shared/menu.php" ?>
 
-  <h1 class="text-center mt-3">Gestion de pago</h1>
+  <h1 class="text-center mt-3">Gestion de nominas</h1>
 
-  <a class="btn btn-primary ml-5 mb-3" href="registrarControlPago.php">Registrar control pago</a>
+  <a class="btn btn-primary ml-5 mb-3" href="registrarNomina.php">Registrar nómina</a>
   <table class="table container border">
     <thead class="thead-dark">
       <tr>
         <th scope="col">Empleado</th>
-        <th scope="col">valor de horas extra</th>
-        <th scope="col">valor parafiscales</th>
+        <th scope="col">Cargo</th>
+        <th scope="col">Contro Pago</th>
+        <th scope="col">Mes</th>
         <th scope="col">Estado</th>
+        <th scope="col">Subtotal</th>
+        <th scope="col">Total</th>
         <th scope="col">Editar</th>
         <th scope="col">Eliminar</th>
       </tr>
     </thead>
     <tbody>
-        <?php while($fila = $resultado ->fetch_assoc()){?>
+        <?php while($fila = $resultado->fetch_assoc()):?>
               <tr>
                 <td><?php echo $fila['nombreE'];?></td>
-                <td><?php echo $fila['valorHorasExtras'];?></td>
-                <td><?php echo $fila['valorParafiscales'];?></td>
+                <td><?php echo $fila['nombre'];?></td>
+                <td><?php echo $fila['idControlPago_fk'];?></td>
+                <td><?php echo $fila['mes'];?></td>
                 <td><?php echo $fila['estado'];?></td>
-                <td><a href="editarControlPago.php?idControlPago=<?php echo $fila['idControlPago']?>.& idEmpleado=<?php echo $fila['idEmpleado']?>"><img src="https://img.icons8.com/bubbles/50/000000/edit.png"/></a></td>
-                <td><a href="../controller/deleteControlPago.php?idControlPago=<?php echo $fila['idControlPago']?>"><img src="https://img.icons8.com/office/30/000000/delete-folder.png"/></a></td>
+                <td><?php echo $fila['subtotal'];?></td>
+                <td><?php echo $fila['total'];?></td>
+                <td><a href="editarNomina.php?idNomina=<?php echo $fila['idNomina']?>"><img src="https://img.icons8.com/bubbles/50/000000/edit.png"/></a></td>
+                <td><a href="../controller/deleteNomina.php?idNomina=<?php echo $fila['idNomina']?>"><img src="https://img.icons8.com/office/30/000000/delete-folder.png"/></a></td>
               </tr>
-         <?php }?>
+         <?php endwhile?>
         </tbody>
   </table>
 

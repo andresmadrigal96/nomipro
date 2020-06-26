@@ -18,6 +18,9 @@
 				</div>
 				
                 <div class="form-group mx-sm-4 pt-3">
+                    <?php if (!empty($_GET["error"])): ?>
+                        <div class="alert alert-danger"><?php echo $_GET["error"] ?></div>
+                    <?php endif ?>
                 	<input type="text" class="form-control" name="usuario" placeholder="Usuario">
 				</div>
 			

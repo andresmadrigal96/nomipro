@@ -1,6 +1,6 @@
 <?php
-require '../utils/seguridad.php';
-
+    require '../utils/seguridad.php';
+    require '../controller/conexion.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -14,12 +14,25 @@ require '../utils/seguridad.php';
 <body>
     <?php require 'shared/menu.php'?>
 
-    <h1 class="text-center mt-3">Registrar cargo</h1>
+    <h1 class="text-center mt-3">Registrar nómina</h1>
 
-    <form class="col-7 center p-3 container" action="../controller/insertCargo.php" method="post">
+    <form class="col-7 center p-3 container" action="../controller/insertNomina.php" method="post">
         <div class="form-group">
-            <label for="nombre">Nombre*</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del cargo" required>
+                <label for="idEmpleado_fk">Empleado*</label>
+                <select class="form-control" id="idEmpleado_fk" name="idEmpleado_fk" required>
+                    <option value="1">Seleccione el empleado</option>
+                    <?php
+                    $consulta = "SELECT * FROM empleados";
+                    $resultado = $mysqli -> query($consulta);
+                    while($fila=$resultado->fetch_array()){
+                        echo "<option value='".$fila["idEmpleado"]."'>".$fila['nombreE']."</option>";
+                    }
+                    ?>
+                </select>
+        </div>
+        <div class="form-group">
+            <label for="mes">Mes*</label>
+            <input type="text" class="form-control" id="mes" name="mes" placeholder="Enero">
         </div>
         <div class="form-group">
             <label for="estado">Estado*</label>
@@ -27,10 +40,6 @@ require '../utils/seguridad.php';
                 <option value="Activo">Activo</option>
                 <option value="Inactivo">Inactivo</option>
             </select>
-        </div>
-        <div class="form-group">
-            <label for="valorCargo">Valor de cargo</label>
-            <input type="text" class="form-control" id="valorCargo" name="valorCargo" placeholder="500.000">
         </div>
         <div class="d-flex justify-content-center">
             <input type="submit" value="REGISTRAR" class="btn btn-primary">
