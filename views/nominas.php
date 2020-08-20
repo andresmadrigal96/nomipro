@@ -45,10 +45,10 @@ $resultado = $mysqli ->query($consulta);
                 <td><?php echo $fila['nombre'];?></td>
                 <td><?php echo $fila['idControlPago_fk'];?></td>
                 <td><?php echo $fila['mes'];?></td>
-                <td><?php echo $fila['estado'];?></td>
+                <td><?php echo $fila['estadoN'];?></td>
                 <td><?php echo $fila['subtotal'];?></td>
                 <td><?php echo $fila['total'];?></td>
-                <td><a href="editarNomina.php?idNomina=<?php echo $fila['idNomina']?>"><img src="https://img.icons8.com/bubbles/50/000000/edit.png"/></a></td>
+                <td><a href="editarNomina.php?idNomina=<?php echo $fila['idNomina']?> & ?idEmpleado=<?php echo $fila['idEmpleado']?> & ?idCargo=<?php echo $fila['idCargo']?> & ?idControlPago=<?php echo $fila['idControlPago']?>"><img src="https://img.icons8.com/bubbles/50/000000/edit.png"/></a></td>
                 <td><a href="../controller/deleteNomina.php?idNomina=<?php echo $fila['idNomina']?>"><img src="https://img.icons8.com/office/30/000000/delete-folder.png"/></a></td>
               </tr>
          <?php endwhile?>

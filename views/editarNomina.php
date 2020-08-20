@@ -2,18 +2,19 @@
 require '../utils/seguridad.php';
 require '../controller/conexion.php';
 
-$id = $_GET['idControlPago'];
+$id = $_GET['idNomina'];
 
-$consulta = "SELECT * FROM controlpagos 
-inner join empleados on controlpagos.idEmpleado_fk=empleados.idEmpleado 
-WHERE idControlPago = $id";
+
+$consulta = "SELECT nombreE, estadoN FROM nominas 
+INNER JOIN empleados ON nominas.idEmpleado_fk=empleados.idEmpleado 
+WHERE idNomina = $id";
 
 if($resultado = $mysqli->query($consulta)){
 
   while($fila = $resultado->fetch_assoc()){
-    $id = $fila['idControlPago'];
+    $id = $_GET['idNomina'];  
     $nombre = $fila['nombreE'];
-    $estado = $fila['estado'];
+    $estado = $fila['estadoN'];
   }
 
   $resultado -> free();
@@ -35,16 +36,16 @@ if($resultado = $mysqli->query($consulta)){
 <body>
     <?php include "shared/menu.php" ?>
 
-    <h1 class="text-center mt-3">Editar control pago</h1>
+    <h1 class="text-center mt-3">Editar nomina</h1>
 
-    <form class="col-7 center p-3 container" action="../controller/updateControlPago.php" method="post">
+    <form class="col-7 center p-3 container" action="../controller/updateNomina.php" method="post">
         <div class="form-group">
             <label for="idEmpleado_fk">Nombre*</label>
-            <input type="text" class="form-control" id="nombreE" name="idEmpleado_fk" value="<?php echo $nombre ?>">
+            <input type="text" class="form-control" id="idEmpleado_fk" name="idEmpleado_fk" value="<?php echo $nombre ?>">
         </div>
         <div class="form-group">
-            <label for="estado">Estado*</label>
-            <select class="form-control" id="estado" name="estado">
+            <label for="estadoN">Estado*</label>
+            <select class="form-control" id="estadoN" name="estadoN">
                 <option value="<?php echo $estado ?>"><?php echo $estado ?></option>
                 <option value="Activo">Activo</option>
                 <option value="Inactivo">Inactivo</option>
@@ -52,8 +53,8 @@ if($resultado = $mysqli->query($consulta)){
         </div>
 
         <div class="d-flex justify-content-center">
-        <input type="text" class="dnone" name="idControlPago" value="<?php echo $id ?>">
-        <input type="text" class="dnone" name="idEmpleado" value="<?php echo $idEmpleado ?>">
+        <input type="text" class="dnone" name="idNomina" value="<?php echo $id ?>">
+        <input type="text" class="dnone" name="idEmpleado_fk" value="<?php echo $nombre ?>">
             <input type="submit" value="Actualizar" class="btn btn-primary">
         </div>
         
